@@ -66,6 +66,9 @@ function App() {
 
               <Slider
                 className="flex-grow"
+                tipFormatter={value =>
+                  `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
                 min={100000}
                 max={2000000}
                 step={10000}
@@ -96,6 +99,7 @@ function App() {
               />
               <Slider
                 className="flex-grow"
+                tipFormatter={value => `${value}%`}
                 min={1}
                 max={10}
                 step={0.1}
