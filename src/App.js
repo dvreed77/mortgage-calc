@@ -148,7 +148,7 @@ function App() {
                 style={{ width: "8rem", marginRight: "1rem" }}
                 size="large"
                 formatter={value =>
-                  `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  `$${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 }
                 min={100000}
                 max={2000000}
@@ -160,7 +160,7 @@ function App() {
               <Slider
                 className="flex-grow"
                 tipFormatter={value =>
-                  `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  `$${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                 }
                 min={100000}
                 max={2000000}
