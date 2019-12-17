@@ -3,6 +3,99 @@ import { Input, Slider, InputNumber } from "antd";
 // import katex from "katex";
 import "katex/dist/katex.min.css";
 import { InlineMath, BlockMath } from "react-katex";
+import {
+  LineChart,
+  AreaChart,
+  Area,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  Legend
+} from "recharts";
+
+function pFunc(P, A, i) {
+  return function p(t) {
+    const r = 1 + i / 12;
+    return P * Math.pow(r, t) - (A * (Math.pow(r, t) - 1)) / (r - 1);
+  };
+}
+
+function CustomTooltip({ payload, label, active }) {
+  if (active) {
+    // console.log(, label, active);
+    const p = payload[0].payload;
+    console.log();
+    const t = Math.floor(p.data)
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return (
+      <div className="custom-tooltip">
+        <div>
+          <span className="text-gray-800">Month:</span> {p.t}
+        </div>
+        <div>
+          <span className="text-gray-800">Amount Left:</span> ${t}
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
+const Chart = ({ P, A, i }) => {
+  const p = pFunc(P, A, i);
+  const data2 = Array.from({ length: 360 }).map((_, t) => ({
+    t: t + 1,
+    data: p(t)
+  }));
+
+  return (
+    <div className="mt-4" style={{ width: "100%", height: 300 }}>
+      <ResponsiveContainer>
+        <AreaChart
+          data={data2}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 30,
+            bottom: 5
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis
+            dataKey="t"
+            interval={12}
+            tickFormatter={value => Math.floor(value / 12)}
+          />
+          <YAxis
+            tickFormatter={value =>
+              `$${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+          />
+          <Tooltip content={<CustomTooltip />} />
+          {/* <Legend /> */}
+          <Area
+            type="monotone"
+            dataKey="data"
+            stroke="#91d5ff"
+            fill="#91d5ff"
+          />
+
+          {/* <Line
+            type="monotone"
+            dataKey="data"
+            stroke="#8884d8"
+            // activeDot={{ r: 8 }}
+          /> */}
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
 
 function monthlyPayment(loanAmount, nPayments, interestRate) {
   const monthlyRate = interestRate / 100 / 12;
@@ -122,6 +215,12 @@ function App() {
           interestRate={interestRate}
         />
       </div>
+
+      <Chart
+        P={loanAmount}
+        A={monthlyPayment(loanAmount, nPayments, interestRate)}
+        i={interestRate / 100}
+      />
     </div>
   );
 }
