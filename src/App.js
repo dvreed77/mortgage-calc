@@ -34,10 +34,10 @@ function CustomTooltip({ payload, label, active }) {
     return (
       <div className="custom-tooltip">
         <div>
-          <span className="text-gray-800">Month:</span> {p.t}
+          <span className="font-bold text-gray-800">Month:</span> {p.t}
         </div>
         <div>
-          <span className="text-gray-800">Amount Left:</span> ${t}
+          <span className="font-bold text-gray-800">Amount Left:</span> ${t}
         </div>
       </div>
     );
@@ -77,20 +77,14 @@ const Chart = ({ P, A, i }) => {
             }
           />
           <Tooltip content={<CustomTooltip />} />
-          {/* <Legend /> */}
           <Area
             type="monotone"
             dataKey="data"
             stroke="#91d5ff"
             fill="#91d5ff"
+            fillOpacity={0.5}
+            isAnimationActive={false}
           />
-
-          {/* <Line
-            type="monotone"
-            dataKey="data"
-            stroke="#8884d8"
-            // activeDot={{ r: 8 }}
-          /> */}
         </AreaChart>
       </ResponsiveContainer>
     </div>
