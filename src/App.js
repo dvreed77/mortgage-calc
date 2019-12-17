@@ -49,7 +49,7 @@ function CustomTooltip({ payload, label, active }) {
 const Chart = ({ P, A, i }) => {
   const p = pFunc(P, A, i);
   const data2 = Array.from({ length: 360 }).map((_, t) => ({
-    t: t + 1,
+    t,
     data: p(t)
   }));
 
@@ -68,7 +68,7 @@ const Chart = ({ P, A, i }) => {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="t"
-            interval={12}
+            interval={11}
             tickFormatter={value => Math.floor(value / 12)}
           />
           <YAxis
